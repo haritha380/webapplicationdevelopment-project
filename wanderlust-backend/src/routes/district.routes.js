@@ -2,6 +2,7 @@
 import { Router } from "express";
 import { requireAuth } from "../middleware/auth.js";
 import District from "../models/District.js"; // Define this model
+import Place from "../models/Place.js";
 
 const router = Router();
 
@@ -36,6 +37,8 @@ router.patch("/:districtId", requireAuth, async (req, res) => {
 // Delete a district
 router.delete("/:districtId", requireAuth, async (req, res) => {
   const { districtId } = req.params;
+  console.log("delete")
+  await Place.deleteMany({district: districtId});
   await District.findByIdAndDelete(districtId);
   res.status(204).send();
 });
